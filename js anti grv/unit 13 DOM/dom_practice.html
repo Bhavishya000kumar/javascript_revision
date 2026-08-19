@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DOM Practice Sandbox</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .box { padding: 15px; border: 1px solid #ccc; margin-bottom: 10px; border-radius: 4px; }
+        .highlight { background-color: yellow; }
+    </style>
+</head>
+<body>
+
+    <!-- Exercise 1: Select and Change Text/Style -->
+    <div class="box">
+        <h1 id="title">Old Title</h1>
+        <button id="btnText">Change Text & Style</button>
+    </div>
+
+    <!-- Exercise 2: Class Toggling -->
+    <div class="box" id="toggleBox">
+        <p>This box's background color can be toggled.</p>
+        <button id="btnToggle">Toggle Highlight Class</button>
+    </div>
+
+    <!-- Exercise 3: Element CRUD -->
+    <div class="box" id="listContainer">
+        <h3>Create and Append Items</h3>
+        <button id="btnAppend">Append Paragraph</button>
+        <button id="btnRemove">Remove Last Paragraph</button>
+        <ul id="itemList"></ul>
+    </div>
+
+    <!-- Exercise 4: Read input and validation -->
+    <div class="box">
+        <h3>Input Validation</h3>
+        <form id="practiceForm">
+            <input type="text" id="usernameInput" placeholder="Minimum 3 characters">
+            <button type="submit">Submit Form</button>
+        </form>
+        <p id="validationMsg" style="color: red;"></p>
+    </div>
+
+    <script>
+        // Exercise 1: Select and Change Text/Style
+        const title = document.getElementById("title");
+        const btnText = document.getElementById("btnText");
+        btnText.addEventListener("click", () => {
+            title.textContent = "New Title Updated!";
+            title.style.color = "blue";
+        });
+
+        // Exercise 2: Class Toggling
+        const toggleBox = document.getElementById("toggleBox");
+        const btnToggle = document.getElementById("btnToggle");
+        btnToggle.addEventListener("click", () => {
+            toggleBox.classList.toggle("highlight");
+        });
+
+        // Exercise 3: Element CRUD
+        const itemList = document.getElementById("itemList");
+        const btnAppend = document.getElementById("btnAppend");
+        const btnRemove = document.getElementById("btnRemove");
+        btnAppend.addEventListener("click", () => {
+            let li = document.createElement("li");
+            li.textContent = "Dynamic Item " + (itemList.children.length + 1);
+            itemList.append(li);
+        });
+        btnRemove.addEventListener("click", () => {
+            if (itemList.children.length > 0) {
+                itemList.lastElementChild.remove();
+            }
+        });
+
+        // Exercise 4: Input Validation
+        const form = document.getElementById("practiceForm");
+        const usernameInput = document.getElementById("usernameInput");
+        const validationMsg = document.getElementById("validationMsg");
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault(); // Stop page refresh
+            let val = usernameInput.value.trim();
+            if (val.length < 3) {
+                validationMsg.textContent = "Error: Input must be at least 3 characters!";
+                validationMsg.style.color = "red";
+            } else {
+                validationMsg.textContent = "Success: Value accepted!";
+                validationMsg.style.color = "green";
+            }
+        });
+    </script>
+</body>
+</html>

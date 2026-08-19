@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dynamic Task Builder</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f4f4; padding: 20px; }
+        .card { background: white; padding: 20px; border-radius: 8px; max-width: 400px; margin: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .input-group { display: flex; margin-bottom: 10px; }
+        input { flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+        button { padding: 8px 12px; background: #007BFF; color: white; border: none; border-radius: 4px; cursor: pointer; margin-left: 5px; }
+        .error { color: red; font-size: 13px; display: none; margin-bottom: 10px; }
+        ul { list-style: none; padding: 0; }
+        li { padding: 8px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .checked { text-decoration: line-through; color: gray; }
+        .delete-btn { background: red; padding: 4px 8px; font-size: 12px; border: none; color: white; border-radius: 4px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Task Checklist</h2>
+    <div class="error" id="errorDiv">Task cannot be empty!</div>
+    <div class="input-group">
+        <input type="text" id="taskInput" placeholder="Enter task name">
+        <button id="addBtn">Add Task</button>
+    </div>
+    <ul id="taskList"></ul>
+</div>
+
+<script>
+    const taskInput = document.getElementById("taskInput");
+    const addBtn = document.getElementById("addBtn");
+    const taskList = document.getElementById("taskList");
+    const errorDiv = document.getElementById("errorDiv");
+
+    addBtn.addEventListener("click", () => {
+        let taskVal = taskInput.value.trim();
+
+        // Validation
+        if (taskVal === "") {
+            errorDiv.style.display = "block";
+            return;
+        }
+        errorDiv.style.display = "none";
+
+        // Create Task Item LI
+        let li = document.createElement("li");
+        li.textContent = taskVal;
+
+        // Toggle task status check
+        li.addEventListener("click", () => {
+            li.classList.toggle("checked");
+        });
+
+        // Delete Button
+        let deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "X";
+        deleteBtn.classList.add("delete-btn");
+        deleteBtn.addEventListener("click", (e) => {
+            e.stopPropagation(); // Prevents triggering LI toggle click
+            li.remove();
+        });
+
+        li.append(deleteBtn);
+        taskList.append(li);
+
+        // Clear input field
+        taskInput.value = "";
+    });
+</script>
+</body>
+</html>

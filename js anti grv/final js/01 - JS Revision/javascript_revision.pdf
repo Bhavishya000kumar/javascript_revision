@@ -1,0 +1,13 @@
+To view the complete PDF version of JavaScript Revision, please use a Markdown-to-PDF compiler on javascript_revision.md.
+Below is the text representation of the notes:
+
+==================================================
+JavaScript Ultimate Quick Revision Sheet
+==================================================
+1. Variables: var (function scoped, hoisted to undefined), let & const (block scoped, TDZ).
+2. Data Types: Primitives (stack value copied), References (heap address pointer copied).
+3. Equality: == performs type coercion, === strictly matches value and type.
+4. Closures: Lexical outer scope reference persistence after execution context exit.
+5. Event Loop: Microtasks (Promises) > Macrotasks (setTimeout) checked by loop.
+6. Copying: Spread operator creates shallow copy; JSON or structuredClone creates deep copy.
+7. async/await: Cleaner asynchronous Promise layout syntax using try/catch error wrappers.

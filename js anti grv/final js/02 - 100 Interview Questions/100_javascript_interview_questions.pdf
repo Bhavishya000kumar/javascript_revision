@@ -1,0 +1,14 @@
+To view the complete PDF version of 100 JavaScript Interview Questions, please use a Markdown-to-PDF compiler on 100_javascript_interview_questions.md.
+Below is the text representation of the top questions:
+
+==================================================
+100 JS Interview Questions Quick Summary
+==================================================
+1. Scope: var (function), let/const (block scoped).
+2. Equality: == converts types, === strictly verifies values and types.
+3. Arrow function: Inherits surrounding parent this context lexically.
+4. Promises states: Pending, Fulfilled, Rejected.
+5. Event Loop: Shift queue microtasks first, then macrotasks to Call Stack.
+6. Copying: Spread (shallow), structuredClone (deep).
+7. Debouncing: waits for inactivity pause. Throttling: executes on regular interval ticks.
+8. storage: localStorage survives tab exit; sessionStorage clears on tab exit.

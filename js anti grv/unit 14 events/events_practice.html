@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Events Practice Sandbox</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .box { padding: 15px; border: 1px solid #ccc; margin-bottom: 10px; border-radius: 4px; }
+        .flex { display: flex; gap: 5px; }
+        .wrapper { padding: 20px; background: #e9ecef; }
+        .item { padding: 8px; border-bottom: 1px solid #ddd; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <!-- Practice 1: Button click & Input value -->
+    <div class="box">
+        <h3>1. Button click & Input Handling</h3>
+        <div class="flex">
+            <input type="text" id="userInput" placeholder="Type message">
+            <button id="alertBtn">Display Input</button>
+        </div>
+    </div>
+
+    <!-- Practice 2: Form submit prevent default -->
+    <div class="box">
+        <h3>2. Prevent Form Submission Validation</h3>
+        <form id="validateForm">
+            <input type="text" id="passInput" placeholder="Password min 6 chars">
+            <button type="submit">Validate Submit</button>
+        </form>
+        <p id="msgDiv" style="color: red;"></p>
+    </div>
+
+    <!-- Practice 3: Parent-child bubbling stop propagation -->
+    <div class="box">
+        <h3>3. Bubbling & stopPropagation()</h3>
+        <div class="wrapper" id="outerDiv">
+            Outer Div
+            <br><br>
+            <button id="innerBtn">Inner Button</button>
+        </div>
+    </div>
+
+    <!-- Practice 4: Event Delegation list items delete -->
+    <div class="box">
+        <h3>4. Event Delegation (Click list items to remove)</h3>
+        <ul id="delegateList">
+            <li class="item">List Item 1 (Click to delete)</li>
+            <li class="item">List Item 2 (Click to delete)</li>
+            <li class="item">List Item 3 (Click to delete)</li>
+        </ul>
+        <button id="addListItemBtn">Add New List Item</button>
+    </div>
+
+    <script>
+        // Practice 1: Button click & Input Value
+        const userInput = document.getElementById("userInput");
+        const alertBtn = document.getElementById("alertBtn");
+        alertBtn.addEventListener("click", () => {
+            let val = userInput.value.trim();
+            if (val !== "") {
+                console.log("User Input Displayed:", val);
+            }
+        });
+
+        // Practice 2: Form submit prevent default & validation
+        const validateForm = document.getElementById("validateForm");
+        const passInput = document.getElementById("passInput");
+        const msgDiv = document.getElementById("msgDiv");
+
+        validateForm.addEventListener("submit", (e) => {
+            e.preventDefault(); // Prevent reload
+            let pass = passInput.value.trim();
+            if (pass.length < 6) {
+                msgDiv.textContent = "Error: Password must be at least 6 characters!";
+                msgDiv.style.color = "red";
+            } else {
+                msgDiv.textContent = "Success: Password validation passed!";
+                msgDiv.style.color = "green";
+            }
+        });
+
+        // Practice 3: Bubbling & stopPropagation()
+        const outerDiv = document.getElementById("outerDiv");
+        const innerBtn = document.getElementById("innerBtn");
+
+        outerDiv.addEventListener("click", () => {
+            console.log("Outer Div Click listener ran!");
+        });
+
+        innerBtn.addEventListener("click", (e) => {
+            e.stopPropagation(); // Stops propagation to outerDiv
+            console.log("Inner Button Clicked! (Propagation stopped)");
+        });
+
+        // Practice 4: Event Delegation (Click to remove)
+        const delegateList = document.getElementById("delegateList");
+        const addListItemBtn = document.getElementById("addListItemBtn");
+
+        // Event delegation listener
+        delegateList.addEventListener("click", (e) => {
+            if (e.target.tagName === "LI") {
+                console.log("Delegated click: Removed -", e.target.textContent);
+                e.target.remove(); // Removes clicked item
+            }
+        });
+
+        // Appends new list items dynamically
+        addListItemBtn.addEventListener("click", () => {
+            let newLi = document.createElement("li");
+            newLi.textContent = "Dynamic List Item " + (delegateList.children.length + 1) + " (Click to delete)";
+            newLi.classList.add("item");
+            delegateList.append(newLi); // Parent listener will handle this automatically!
+        });
+    </script>
+</body>
+</html>

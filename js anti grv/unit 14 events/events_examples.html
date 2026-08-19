@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Events Examples Sandbox</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .box { padding: 15px; border: 1px solid #ccc; margin-bottom: 10px; border-radius: 4px; }
+        .parent-div { padding: 20px; background-color: #eee; margin-top: 10px; }
+        .child-btn { padding: 10px 15px; background: #007bff; color: white; border: none; }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Event Listeners and Click -->
+    <div class="box">
+        <h3>1. Click Event</h3>
+        <button id="clickBtn">Click Me</button>
+    </div>
+
+    <!-- 2. Inputs & Key events -->
+    <div class="box">
+        <h3>2. Input, Change & Keyboard events</h3>
+        <input type="text" id="textInput" placeholder="Type here...">
+        <p id="inputStatus">Status: Idle</p>
+    </div>
+
+    <!-- 3. Forms submission preventDefault -->
+    <div class="box">
+        <h3>3. preventDefault Form submit</h3>
+        <form id="sampleForm">
+            <input type="text" id="username" placeholder="Username" required>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <!-- 4. Bubbling vs stopPropagation -->
+    <div class="box">
+        <h3>4. Bubbling vs stopPropagation</h3>
+        <div class="parent-div" id="parentBox">
+            Parent Area (Div)
+            <br><br>
+            <button class="child-btn" id="bubbleBtn">Bubbling Button</button>
+            <button class="child-btn" id="stopBtn" style="background: red;">Stop Bubbling Button</button>
+        </div>
+    </div>
+
+    <!-- 5. Event Delegation -->
+    <div class="box">
+        <h3>5. Event Delegation</h3>
+        <ul id="itemList">
+            <li>Item A (Click to print)</li>
+            <li>Item B (Click to print)</li>
+            <li>Item C (Click to print)</li>
+        </ul>
+    </div>
+
+    <script>
+        // 1. Click Event & Event Object
+        const clickBtn = document.getElementById("clickBtn");
+        clickBtn.addEventListener("click", (e) => {
+            console.log("Click Event Object type:", e.type);
+            console.log("Clicked Element target tag:", e.target.tagName);
+        });
+
+        // 2. Input, Change & Keydown
+        const textInput = document.getElementById("textInput");
+        const inputStatus = document.getElementById("inputStatus");
+        
+        // input: fires on every keystroke
+        textInput.addEventListener("input", (e) => {
+            inputStatus.textContent = "Status: Inputting... Current value: " + e.target.value;
+        });
+
+        // change: fires on focus loss after change
+        textInput.addEventListener("change", (e) => {
+            console.log("Change event value registered:", e.target.value);
+        });
+
+        // keydown: tracks keys
+        textInput.addEventListener("keydown", (e) => {
+            console.log("Key pressed:", e.key);
+        });
+
+        // 3. preventDefault Form Submit
+        const sampleForm = document.getElementById("sampleForm");
+        sampleForm.addEventListener("submit", (e) => {
+            e.preventDefault(); // Stop page reload
+            console.log("Form submit intercepted! Username entered:", document.getElementById("username").value);
+        });
+
+        // 4. Bubbling vs stopPropagation
+        const parentBox = document.getElementById("parentBox");
+        const bubbleBtn = document.getElementById("bubbleBtn");
+        const stopBtn = document.getElementById("stopBtn");
+
+        parentBox.addEventListener("click", () => {
+            console.log("Parent Box Click Handler Triggered!");
+        });
+
+        bubbleBtn.addEventListener("click", () => {
+            console.log("Child Bubbling Button Clicked!");
+            // Event bubbles up to parentBox automatically
+        });
+
+        stopBtn.addEventListener("click", (e) => {
+            e.stopPropagation(); // Stops propagation to parentBox
+            console.log("Child Stop Bubbling Button Clicked! (Propagation halted)");
+        });
+
+        // 5. Event Delegation
+        const itemList = document.getElementById("itemList");
+        itemList.addEventListener("click", (e) => {
+            // Checks target node tag name
+            if (e.target.tagName === "LI") {
+                console.log("Event Delegation matches! Clicked item text:", e.target.textContent);
+            }
+        });
+    </script>
+</body>
+</html>

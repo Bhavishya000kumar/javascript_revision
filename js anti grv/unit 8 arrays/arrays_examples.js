@@ -86,3 +86,60 @@ console.log("Reduce Sum Total:", dataSum); // 30
 // some() & every()
 console.log("some > 12 :", dataVals.some(x => x > 12)); // true (15 is > 12)
 console.log("every > 4  :", dataVals.every(x => x > 4));  // true (all items are > 4)
+
+
+// 7. Lecture 30 — Array Interview + Problem Solving
+console.log("\n--- 7. Lecture 30 - Problem Solving ---");
+
+// Frequency of elements
+function countFrequency(arr) {
+    let freq = {};
+    for (let num of arr) {
+        freq[num] = (freq[num] ?? 0) + 1;
+    }
+    return freq;
+}
+console.log("Frequencies:", countFrequency([1, 2, 1, 3, 2, 1]));
+
+// Min and Max
+function findMinMax(arr) {
+    let min = arr[0];
+    let max = arr[0];
+    for (let val of arr) {
+        if (val > max) max = val;
+        if (val < min) min = val;
+    }
+    return { min, max };
+}
+console.log("Min and Max:", findMinMax([15, 42, 8, 91, 23]));
+
+// Duplicate elements
+function findDuplicates(arr) {
+    let seen = [];
+    let dupes = [];
+    for (let x of arr) {
+        if (seen.includes(x)) {
+            if (!dupes.includes(x)) dupes.push(x);
+        } else {
+            seen.push(x);
+        }
+    }
+    return dupes;
+}
+console.log("Duplicates:", findDuplicates([1, 2, 3, 2, 4, 1]));
+
+// Transforming an Array (salary mapping)
+let salaries = [1000, 2000, 3000];
+let updatedSalaries = salaries.map(s => s + (s * 0.1));
+console.log("Transformed Salaries:", updatedSalaries);
+
+// Filtering an Array (passing scores)
+let marks = [45, 78, 32, 90];
+let passingMarks = marks.filter(m => m >= 50);
+console.log("Filtered Passing Marks:", passingMarks);
+
+// Aggregation (Total bill calculation)
+let cartPrices = [120, 250, 80];
+let totalBill = cartPrices.reduce((total, p) => total + p, 0);
+console.log("Aggregated Total Bill:", totalBill);
+

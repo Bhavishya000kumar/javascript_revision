@@ -310,14 +310,119 @@ false
 ---
 
 
+## Lecture 30 — Array Interview + Problem Solving
+
+Problem-solving mein arrays ko manipulate aur check karne ke liye different strategies run ki jati hain. Chaliye unhe systematically cover karte hain.
+
+### 1. Frequency of Elements
+* **What does it mean:** Array ke andar kaunsa element kitni baar aaya hai, uski count list banana.
+* **Why is it useful:** Analytics platforms, search engines, and interview problems.
+* **How to approach:** Ek empty object/map le kar elements par loops run karenge. Jab bhi active item mile, map ke andar uski frequency tally increment kar denge.
+* **Simple example:**
+  ```javascript
+  function countFreq(arr) {
+      let freq = {};
+      for (let num of arr) {
+          freq[num] = (freq[num] ?? 0) + 1;
+      }
+      return freq;
+  }
+  console.log(countFreq([1, 2, 1, 3, 2, 1]));
+  ```
+* **Output:** `{ '1': 3, '2': 2, '3': 1 }`
+* **Short explanation:** Har number search loop state check map variables value updates. Pehli baar elements counts setting trigger updates count parameter.
+
+### 2. Finding Maximum and Minimum
+* **What does it mean:** Sabse chhota (Min) aur sabse bada (Max) value index evaluate search.
+* **Why is it useful:** Dynamic range values, boundary check filters, chart plots.
+* **How to approach:** Initial variable numbers sets arrays values start boundary. Traverse all slots, update trackers dynamically if any values violate bounds.
+* **Simple example:**
+  ```javascript
+  function findBounds(arr) {
+      let min = arr[0];
+      let max = arr[0];
+      for (let val of arr) {
+          if (val > max) max = val;
+          if (val < min) min = val;
+      }
+      return { min, max };
+  }
+  console.log(findBounds([15, 42, 8, 91, 23]));
+  ```
+* **Output:** `{ min: 8, max: 91 }`
+* **Short explanation:** Compare step updates bounds checks systematically when larger values or smaller values are found.
+
+### 3. Finding Duplicate Elements
+* **What does it mean:** Ek se zyada baar aane wale values detect check filter.
+* **Why is it useful:** Database entries sanitization, array uniqueness checks.
+* **How to approach:** Ek tracker list `seen` aur `duplicates` declare karein. Loop run constraints logic apply.
+* **Simple example:**
+  ```javascript
+  function getDuplicates(arr) {
+      let seen = [];
+      let dupes = [];
+      for (let x of arr) {
+          if (seen.includes(x)) {
+              if (!dupes.includes(x)) dupes.push(x);
+          } else {
+              seen.push(x);
+          }
+      }
+      return dupes;
+  }
+  console.log(getDuplicates([1, 2, 3, 2, 4, 1]));
+  ```
+* **Output:** `[2, 1]`
+* **Short explanation:** Since 2 and 1 appear more than once in evaluation, they are grouped in duplicate lists.
+
+### 4. Transforming an Array
+* **What does it mean:** Elements operations mappings convert data values format.
+* **Why is it useful:** Discount price computations, object conversions.
+* **How to approach:** `map()` HOF callback checks.
+* **Simple example:**
+  ```javascript
+  let ratings = [1, 2, 3];
+  let stars = ratings.map(r => r + " Stars");
+  console.log(stars);
+  ```
+* **Output:** `["1 Stars", "2 Stars", "3 Stars"]`
+
+### 5. Filtering an Array
+* **What does it mean:** Condition validation mismatch items ignore keep matches.
+* **Why is it used:** Removing falsy values, search category constraints.
+* **How to approach:** `filter()` method validations.
+* **Simple example:**
+  ```javascript
+  let ages = [12, 19, 15, 24];
+  let adults = ages.filter(a => a >= 18);
+  console.log(adults);
+  ```
+* **Output:** `[19, 24]`
+
+### 6. Aggregation (Sum/Total)
+* **What does it mean:** Dynamic variables calculations merge single results value.
+* **How to approach:** `reduce()` operator accumulators updates.
+* **Simple example:**
+  ```javascript
+  let items = [100, 200, 300];
+  let bill = items.reduce((total, price) => total + price, 0);
+  console.log(bill);
+  ```
+* **Output:** `600`
+
+
+---
+
+
 # 🧠 QUICK REVISION SUMMARY
 
-* **Push/Pop/Shift/Unshift:** Stack and queue mutations operations on original array.
-* **slice vs splice:** slice copies array section; splice deletes/replaces in original array.
-* **find vs findIndex:** find yields value of match; findIndex yields index value of match.
-* **forEach vs map vs filter:** forEach prints actions; map transforms data into new array; filter outputs condition matching subset.
-* **reduce:** Accumulates elements into single output variable parameters trackers.
+* **Basics & Stack/Queue:** push adds to end; pop removes from end; unshift adds to start; shift removes from start. (All mutate).
+* **slice vs splice:** slice copies array section without mutating; splice deletes/adds elements directly in place.
+* **find vs findIndex:** find yields value; findIndex yields index.
+* **forEach vs map vs filter:** forEach prints actions; map transforms array elements; filter extracts matching subsets.
+* **reduce:** Aggregates values using an accumulator.
 * **some vs every:** some checks at least 1 match; every requires all elements to pass.
+* **Interview Solving (L30):** Uses key-value maps for frequencies, trackers for duplicates, bounds checks for min/max, and HOFs for transform, filter, and aggregation.
 
 
 ---
@@ -325,11 +430,11 @@ false
 
 # 📝 IMPORTANT DEFINITIONS (INTERVIEW-READY)
 
-1. **Array Mutability:** The capability of array elements to be updated directly in place (e.g. methods like `push` and `splice` mutate, while `slice` is non-mutating).
-2. **Higher-Order Array Methods:** Methods that accept user callback functions as input arguments to process array items dynamically.
-3. **Accumulator:** The parameter variable in `reduce()` that collects and aggregates calculation values through successive iterations.
-4. **Out-of-Bounds Indexing:** Reading indices beyond array length bounds, returning `undefined` safely.
-5. **Short-Circuit Verification:** Checking array boundaries in `some()` or `every()` where verification halts immediately on finding the first confirming or disconfirming item.
+1. **Array Mutability:** In-place modifications of array elements without copying array pointers.
+2. **Callback Iterations:** Running callback code logic inside array loops.
+3. **Accumulator:** Aggregation variable in reduce operations that preserves calculations across cycles.
+4. **Out-of-Bounds evaluation:** Bracket indexing queries exceeding array limits, yielding undefined.
+5. **Array Frequency Mapping:** Transforming array items to key-value objects representing occurrences.
 
 
 ---
@@ -338,95 +443,84 @@ false
 # 💬 IMPORTANT INTERVIEW QUESTIONS & ANSWERS
 
 ### Q1. Difference between `slice()` and `splice()`?
-**Ans:** `slice()` extracts a portion of the array and returns a new copy without modifying the original. `splice()` deletes or adds items in place, modifying the original array.
+**Ans:** `slice()` extracts elements and returns a copy (non-mutating). `splice()` adds/removes elements from the original array directly (mutating).
 
 ### Q2. Difference between `forEach()` and `map()`?
-**Ans:** `forEach()` executes operations on each item and returns `undefined`. `map()` transforms each item and returns a new array of the same length.
+**Ans:** `forEach()` returns `undefined` and is used to trigger side effects. `map()` returns a new processed array of the same length.
 
-### Q3. Predict output:
+### Q3. How do you find the frequency of elements in an array?
+**Ans:** By using a tracker object/map. Loop through elements and increment the count key for each item.
 ```javascript
-let a = [1, 2];
-let b = a.push(3);
-console.log(b);
+let freq = {};
+arr.forEach(x => freq[x] = (freq[x] ?? 0) + 1);
 ```
-**Ans:** `3`. The `push()` method returns the **new length** of the array after adding the element.
 
 ### Q4. Difference between `find()` and `filter()`?
-**Ans:** `find()` returns only the first matching element value. `filter()` returns a new array containing all elements that match the criteria.
+**Ans:** `find()` returns only the first matching element value. `filter()` returns a new array with all matching elements.
 
 ### Q5. What is the Accumulator in `reduce()`?
-**Ans:** A state variable parameter that aggregates values across loop iterations, carrying the previous callback calculations into the next step.
+**Ans:** The first argument inside the `reduce()` callback that accumulates the returned value of the previous iteration.
 
 ### Q6. Predict output:
 ```javascript
-let array = [1, 2, 3];
-let res = array.map(x => { x * 2 });
-console.log(res);
+let result = [1, 2, 3].map(x => x * 2);
+console.log(result);
 ```
-**Ans:** `[undefined, undefined, undefined]`. Since the callback uses curly braces but lacks the `return` keyword, no value is returned for each element.
+**Ans:** `[2, 4, 6]`.
 
 ### Q7. Explain `some()` vs `every()` method outputs.
-**Ans:** `some()` returns `true` if at least one item passes the validation condition. `every()` returns `true` only if all items pass the condition.
+**Ans:** `some()` returns `true` if at least one element matches the condition. `every()` returns `true` only if all elements match the condition.
 
-### Q8. Predict output:
-```javascript
-let arr = [10, 20];
-arr[5] = 99;
-console.log(arr.length);
-```
-**Ans:** `6`. Index positions 2, 3, 4 remain empty (`undefined`), but length expands to 6.
+### Q8. How do you search for duplicates in an array?
+**Ans:** By keeping a `seen` list. If an item is processed that already exists in `seen`, it is flagged as a duplicate.
 
 ### Q9. What does `pop()` return when called on an empty array?
 **Ans:** It returns `undefined`.
 
-### Q10. Does `concat()` mutate original input arrays?
-**Ans:** No. It yields a new merged array copy.
+### Q10. Does `concat()` mutate the original arrays?
+**Ans:** No. It returns a new merged array copy.
 
 ### Q11. Predict output:
 ```javascript
-let a = [1, 2];
-let b = a;
-b.push(3);
-console.log(a);
+let x = [1, 2];
+let y = x;
+y.push(3);
+console.log(x);
 ```
-**Ans:** `[1, 2, 3]`. Arrays are copied by reference. Modifying `b` affects the same object referenced by `a`.
+**Ans:** `[1, 2, 3]`. Arrays are copied by reference. Modifying variable `y` updates the same object referenced by `x`.
 
 ### Q12. Predict output:
 ```javascript
-console.log([1, 2, 3].indexOf(99));
+console.log([1, 2].indexOf(99));
 ```
-**Ans:** `-1`. Since 99 is not in the array.
+**Ans:** `-1`.
 
 ### Q13. Predict output:
 ```javascript
-let result = [1, 2].filter(x => x > 5);
-console.log(result);
+let data = [1, 2].filter(x => x > 10);
+console.log(data);
 ```
-**Ans:** `[]` (empty array). Since no element is greater than 5.
+**Ans:** `[]` (empty array).
 
-### Q14. What is default initial value in `reduce()` if not specified?
-**Ans:** It defaults to the first element of the array, and the current value starts from the second element.
+### Q14. What happens if no initial value is passed to `reduce()`?
+**Ans:** The accumulator takes the first array element, and the current value starts processing from the second element.
 
-### Q15. Predict output:
-```javascript
-let text = "apple";
-console.log(Array.isArray(text));
-```
-**Ans:** `false`. Since string is not an array.
+### Q15. How do you find the minimum and maximum values in an array?
+**Ans:** Set `min` and `max` to the first element of the array. Traverse the array and update `min` if an element is smaller, or `max` if an element is larger.
 
 ### Q16. Predict output:
 ```javascript
-let nums = [1, 2, 3];
-nums.shift();
-console.log(nums);
+let data = [1, 2, 3];
+data.shift();
+console.log(data);
 ```
-**Ans:** `[2, 3]`. Shift removes the first element.
+**Ans:** `[2, 3]`. Shift deletes the first element.
 
 ### Q17. Predict output:
 ```javascript
-let list = [10, 20];
-list.unshift(5);
-console.log(list);
+let data = [10, 20];
+data.unshift(5);
+console.log(data);
 ```
 **Ans:** `[5, 10, 20]`. Unshift adds element at the beginning.
 
@@ -437,14 +531,14 @@ console.log([1, 2].includes(1));
 **Ans:** `true`.
 
 ### Q19. How do you duplicate an array safely without keeping reference connection?
-**Ans:** By using the spread operator: `let newArr = [...oldArr];`.
+**Ans:** By using the spread operator: `let duplicate = [...original];`.
 
 ### Q20. Predict output:
 ```javascript
-let scoreList = [5, 12, 8];
-console.log(scoreList.findIndex(x => x > 10));
+let test = [2, 5, 8];
+console.log(test.findIndex(x => x > 4));
 ```
-**Ans:** `1`. The index of the first value greater than 10 (12) is 1.
+**Ans:** `1`. The index of the first value greater than 4 (5) is 1.
 
 
 ---
@@ -452,47 +546,44 @@ console.log(scoreList.findIndex(x => x > 10));
 
 # 💻 PRACTICE QUESTIONS
 
-## Question 1: Find Largest element in Array
-* **Question:** Create a loop to search the maximum value in an array.
+## Question 1: Find Largest element
+* **Question:** Find the maximum element inside the array using a loop.
 * **Solution:**
   ```javascript
-  function getMax(arr) {
+  function getMaxVal(arr) {
       let max = arr[0];
       for (let i = 1; i < arr.length; i++) {
-          if (arr[i] > max) {
-              max = arr[i];
-          }
+          if (arr[i] > max) max = arr[i];
       }
       return max;
   }
-  console.log(getMax([10, 50, 30])); // 50
+  console.log(getMaxVal([12, 45, 8, 30])); // 45
   ```
-* **Explanation:** Checks each item against the current max and updates if a larger value is found.
+* **Explanation:** Compares each item against max and updates the variable if a larger value is found.
 
-## Question 2: Sum array values using reduce
-* **Question:** Calculate array sum totals.
+## Question 2: Sum array elements using reduce
+* **Question:** Calculate the sum of array values.
 * **Solution:**
   ```javascript
-  function totalArraySum(arr) {
+  function sumArray(arr) {
       return arr.reduce((acc, curr) => acc + curr, 0);
   }
-  console.log(totalArraySum([1, 2, 3, 4])); // 10
+  console.log(sumArray([10, 20, 30])); // 60
   ```
-* **Explanation:** Combines array values iteratively starting from 0.
+* **Explanation:** Sums elements starting from an initial value of 0.
 
 ## Question 3: Remove duplicate array elements
-* **Question:** Clean duplicates and return unique values array.
+* **Question:** Clean duplicates from array.
 * **Solution:**
   ```javascript
-  function clearDuplicates(arr) {
+  function removeDupes(arr) {
       let unique = [];
-      for (let item of arr) {
-          if (!unique.includes(item)) {
-              unique.push(item);
-          }
+      for (let x of arr) {
+          if (!unique.includes(x)) unique.push(x);
       }
       return unique;
   }
-  console.log(clearDuplicates([1, 2, 2, 3, 1])); // [1, 2, 3]
+  console.log(removeDupes([1, 2, 2, 3])); // [1, 2, 3]
   ```
-* **Explanation:** Traverses values and pushes items only if they are not already in the unique array.
+* **Explanation:** Traverses values and pushes to unique only if not already present.
+
